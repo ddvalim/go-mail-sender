@@ -10,6 +10,6 @@ var MailRoutes = []ports.Route{
 	{
 		URI:    "/send",
 		Method: http.MethodPost,
-		Func:   cmd.NewHandler().Send,
+		Func:   cmd.NewMailHandler().Send,
 	},
 }
