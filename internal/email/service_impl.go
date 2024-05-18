@@ -55,7 +55,7 @@ func (s ServiceImpl) Send(email ports.Email) error {
 
 	msg.Raw = base64.URLEncoding.EncodeToString([]byte(raw))
 
-	_, err = svr.Users.Messages.Send("", &msg).Do()
+	_, err = svr.Users.Messages.Send("me", &msg).Do()
 	if err != nil {
 		return err
 	}
