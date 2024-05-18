@@ -5,26 +5,32 @@ import (
 	"github.com/ddvalim/go-mail-sender/cmd/response"
 	"github.com/ddvalim/go-mail-sender/core/ports"
 	"github.com/ddvalim/go-mail-sender/internal/client"
+	"github.com/ddvalim/go-mail-sender/internal/credentials"
 	"github.com/ddvalim/go-mail-sender/internal/email"
+	"github.com/ddvalim/go-mail-sender/internal/token"
 	"io/ioutil"
 	"net/http"
 )
 
-type Handler struct {
+type MailHandler struct {
 	mailService email.Service
 }
 
-func NewHandler() Handler {
+func NewMailHandler() MailHandler {
 	clientService := client.NewService()
 
-	mailService := email.NewService(clientService)
+	credentialsService := credentials.NewService()
 
-	return Handler{
+	tokenService := token.NewService()
+
+	mailService := email.NewService(clientService, credentialsService, tokenService)
+
+	return MailHandler{
 		mailService: mailService,
 	}
 }
 
-func (h Handler) Send(w http.ResponseWriter, r *http.Request) {
+func (h MailHandler) Send(w http.ResponseWriter, r *http.Request) {
 	requestBody, readErr := ioutil.ReadAll(r.Body)
 	if readErr != nil {
 		response.Error(w, http.StatusInternalServerError, readErr)
