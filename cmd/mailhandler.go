@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"github.com/ddvalim/go-mail-sender/cmd/response"
 	"github.com/ddvalim/go-mail-sender/core/ports"
+	"github.com/ddvalim/go-mail-sender/internal/client"
 	"github.com/ddvalim/go-mail-sender/internal/email"
 	"io/ioutil"
 	"net/http"
@@ -14,7 +15,9 @@ type Handler struct {
 }
 
 func NewHandler() Handler {
-	mailService := email.NewService()
+	clientService := client.NewService()
+
+	mailService := email.NewService(clientService)
 
 	return Handler{
 		mailService: mailService,
