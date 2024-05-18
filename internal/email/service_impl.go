@@ -5,26 +5,30 @@ import (
 	"fmt"
 	"github.com/ddvalim/go-mail-sender/core/ports"
 	"github.com/ddvalim/go-mail-sender/internal/client"
+	"github.com/ddvalim/go-mail-sender/internal/credentials"
+	"github.com/ddvalim/go-mail-sender/internal/token"
 	"golang.org/x/oauth2/google"
 	"google.golang.org/api/gmail/v1"
-	"os"
 )
 
 const tokenFile = "config/token.json"
-const credentialsFile = "config/credentials.json"
 
 type ServiceImpl struct {
-	client client.Service
+	client      client.Service
+	credentials credentials.Service
+	token       token.Service
 }
 
-func NewService(client client.Service) ServiceImpl {
+func NewService(client client.Service, credentials credentials.Service, token token.Service) ServiceImpl {
 	return ServiceImpl{
-		client: client,
+		client:      client,
+		credentials: credentials,
+		token:       token,
 	}
 }
 
 func (s ServiceImpl) Send(email ports.Email) error {
-	credentials, err := os.ReadFile(credentialsFile)
+	credentials, err := s.credentials.GetCredentials()
 	if err != nil {
 		return err
 	}
@@ -34,7 +38,7 @@ func (s ServiceImpl) Send(email ports.Email) error {
 		return err
 	}
 
-	token, err := s.client.GetTokenFromFile(tokenFile)
+	token, err := s.token.GetTokenFromFile(tokenFile)
 	if err != nil {
 		return err
 	}
