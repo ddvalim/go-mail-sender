@@ -1,4 +1,4 @@
-package go_mail_sender
+package main
 
 import (
 	"fmt"
@@ -8,6 +8,8 @@ import (
 )
 
 func main() {
+	fmt.Println(fmt.Sprintf("Server running on %d", 5885))
+
 	err := http.ListenAndServe(fmt.Sprintf(":%d", 5885), router.CreateRouter())
 	if err != nil {
 		log.Fatal(err)
