@@ -14,6 +14,7 @@ func configRouter(router *mux.Router) *mux.Router {
 	var r []ports.Route
 
 	r = append(r, routes.MailRoutes...)
+	r = append(r, routes.AuthRoutes...)
 
 	for _, route := range r {
 		router.HandleFunc(route.URI, route.Func).Methods(route.Method)
