@@ -7,5 +7,4 @@ import (
 
 type Service interface {
 	NewClient(config oauth2.Config, token *oauth2.Token) (*http.Client, error)
-	GetTokenFromFile(file string) (*oauth2.Token, error)
 }
