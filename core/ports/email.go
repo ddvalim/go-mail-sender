@@ -1,8 +1,8 @@
 package ports
 
 type Email struct {
-	To   string
-	From string
-	Text string
-	CC   string
+	To      string
+	From    string
+	Text    string
+	Subject string
 }
